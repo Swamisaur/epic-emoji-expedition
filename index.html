@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dadxgvzm5/image/upload/v1753704066/Saurabh_Swami_logomark_nyi0wh.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Epic Emoji Expedition</title>
+
+    <!-- Preconnect to critical origins to speed up handshake/DNS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://esm.sh">
+    <link rel="preconnect" href="https://res.cloudinary.com">
+
+    <!-- Preload critical assets to prioritize their download -->
+    <link rel="preload" href="https://res.cloudinary.com/dadxgvzm5/video/upload/v1753659071/track01_splash_pfzesb.mp3" as="audio" type="audio/mpeg">
+    <link rel="preload" href="https://fonts.gstatic.com/s/pirataone/v23/I_urMpiDvgL12QyCo4DRr7dla1E.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://fonts.gstatic.com/s/medievalsharp/v26/EvOJzAlL3oU5AQl2mP5KdgptS24.woff2" as="font" type="font/woff2" crossorigin>
+
+
+    <!-- Asynchronously load fonts to avoid blocking render -->
+    <!-- 'display=swap' provides a good balance between performance and FOUT -->
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Pirata+One&display=swap" rel="stylesheet">
+    
+    <!-- 
+      Tailwind CSS via CDN
+      NOTE: The console warning about using the CDN in production is expected.
+      This setup is intentional for this rapid development environment. A production
+      build would use the Tailwind CLI or PostCSS for optimization.
+    -->
+    <script src="https://cdn.tailwindcss.com" defer></script>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="manifest" href="/manifest.json">
+    <style>
+      .font-title {
+        font-family: 'Pirata One', 'cursive';
+        font-weight: 400; /* Pirata One only supports 400 weight */
+        letter-spacing: -0.02em;
+      }
+      
+      /* Initial loading screen styles */
+      #loading-screen {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background-color: #111827; /* Tailwind gray-900 */
+        font-family: 'MedievalSharp', cursive;
+        font-weight: 400;
+        text-align: center;
+        color: #e5e7eb; /* Tailwind gray-200 */
+        transition: opacity 0.5s ease-out;
+      }
+      .loader-emoji {
+        font-size: 5rem;
+        animation: pulse-loader 2s infinite ease-in-out;
+        margin-bottom: 1rem;
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+      }
+      .loader-title {
+        font-family: 'Pirata One', 'cursive';
+        font-weight: 400;
+        letter-spacing: -0.02em;
+        font-size: 3rem;
+        color: #facc15; /* Tailwind amber-400 */
+        text-shadow: 2px 2px 0 #92400e, 4px 4px 0 #78350f, 6px 6px 0 #451a03, 8px 8px 10px rgba(0,0,0,0.5);
+      }
+      .loader-text {
+        font-size: 1.3rem;
+        margin-top: 0.5rem;
+      }
+      @keyframes pulse-loader {
+        0%, 100% { transform: scale(1); opacity: 0.8; }
+        50% { transform: scale(1.2); opacity: 1; }
+      }
+
+      body {
+        overscroll-behavior-y: contain;
+        font-family: 'MedievalSharp', cursive;
+        font-weight: 400;
+        font-size: 1.05rem; /* Base font size increased for new font */
+        /* Prevent text selection which can be annoying on mobile */
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10+ and Edge */
+        user-select: none; /* Standard syntax */
+      }
+      /* This rule ensures that common text elements which might have their font-weight
+         reset by browser or framework base styles still appear correctly. */
+      p, li, a, span, h1, h2, h3, h4, h5, h6 {
+          font-weight: 400;
+      }
+      /* Re-enable text selection for input elements */
+      input, textarea {
+        -webkit-user-select: text;
+        -ms-user-select: text;
+        user-select: text;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+      }
+      .liquid-glass {
+        background: rgba(30, 41, 55, 0.40); /* bg-gray-800 at 40% opacity */
+        -webkit-backdrop-filter: url(#frosted-glass-filter);
+        backdrop-filter: url(#frosted-glass-filter);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+      }
+      .liquid-glass-base {
+        background: rgba(30, 41, 55, 0.55); /* bg-gray-800 at 55% opacity */
+        -webkit-backdrop-filter: url(#frosted-glass-filter);
+        backdrop-filter: url(#frosted-glass-filter);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+      }
+      
+      .liquid-glass-gold {
+        /* Toned down the saturation for a more subtle, elegant gold effect */
+        background: linear-gradient(145deg, rgba(240, 230, 220, 0.12), rgba(220, 210, 200, 0.08));
+        -webkit-backdrop-filter: url(#frosted-glass-filter);
+        backdrop-filter: url(#frosted-glass-filter);
+        border: 1px solid rgba(240, 230, 220, 0.2);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      }
+
+      /* Enhanced iOS fallback for liquid glass effect */
+      .is-ios .liquid-glass,
+      .is-ios .liquid-glass-base,
+      .is-ios .liquid-glass-gold {
+        /* iOS supports blur, but not SVG filters in backdrop-filter. */
+        /* This provides a graceful fallback to a standard frosted glass effect. */
+        -webkit-backdrop-filter: blur(12px) saturate(150%);
+        backdrop-filter: blur(12px) saturate(150%);
+
+        /* Prepare for the distortion overlay */
+        position: relative;
+        z-index: 0;
+        overflow: hidden;
+      }
+
+      /* This ::after pseudo-element creates a subtle, animated distortion effect 
+         to simulate the refractions that are not supported on iOS. */
+      .is-ios .liquid-glass::after,
+      .is-ios .liquid-glass-base::after,
+      .is-ios .liquid-glass-gold::after {
+          content: '';
+          position: absolute;
+          inset: -50%;
+          z-index: -1; /* Place behind content */
+
+          /* A complex, transparent gradient to simulate light refractions */
+          background-image:
+              radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 25%),
+              radial-gradient(circle at 85% 40%, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 30%),
+              radial-gradient(circle at 40% 90%, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 20%);
+
+          /* Animate its position and rotation to create a liquid-like movement */
+          animation: ios-liquid-refraction 15s linear infinite;
+
+          /* A slight blur softens the effect */
+          filter: blur(5px);
+      }
+
+      @keyframes ios-liquid-refraction {
+          0% {
+              transform: rotate(0deg) scale(1.0);
+          }
+          50% {
+              transform: rotate(180deg) scale(1.2);
+          }
+          100% {
+              transform: rotate(360deg) scale(1.0);
+          }
+      }
+
+      .css-fullscreen {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        max-height: 100vh !important; /* Ensure it doesn't exceed viewport */
+        z-index: 50;
+        padding: 0 !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+      }
+      .carousel-faded-edges {
+        -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+      }
+      .splash-card-shape {
+        -webkit-clip-path: url(#splash-card-clip-path);
+        clip-path: url(#splash-card-clip-path);
+      }
+      .splash-card-shadow {
+        box-shadow: 0 0 80px -10px rgba(250, 204, 21, 0.25);
+      }
+      .shine-effect-card {
+        position: relative;
+        overflow: hidden;
+      }
+      .shine-effect-card::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        z-index: -1; /* Move shine behind the card content */
+        background:
+          /* Widest shine */
+          linear-gradient(to right, transparent 20%, rgba(255, 255, 255, 0.14) 35%, transparent 50%),
+          /* Thin shine */
+          linear-gradient(to right, transparent 60%, rgba(255, 255, 255, 0.105) 61.5%, transparent 63%),
+          /* Wide shine */
+          linear-gradient(to right, transparent 75%, rgba(255, 255, 255, 0.07) 80%, transparent 85%);
+        transform: rotate(20deg);
+        animation: shine 5s linear infinite;
+      }
+      .shine-effect {
+        position: relative;
+        overflow: hidden;
+      }
+      .shine-effect::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(to right, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 60%);
+        transform: rotate(20deg);
+        animation: shine 5s linear infinite;
+      }
+      @keyframes shine {
+        0% { transform: translateX(-75%) translateY(-75%) rotate(20deg); }
+        100% { transform: translateX(75%) translateY(75%) rotate(20deg); }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react": "https://esm.sh/react@^19.1.0",
+    "types": "https://esm.sh/types@^0.1.1"
+  }
+}
+</script>
+<script>
+    // Add a class to the body if the browser is on iOS
+    // This allows for CSS-based fallbacks for features like backdrop-filter with SVG.
+    if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+      document.body.classList.add('is-ios');
+    }
+  </script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-gray-900 text-white antialiased">
+    <svg style="position: absolute; width: 0; height: 0;">
+      <filter id="frosted-glass-filter" x="-20%" y="-20%" width="140%" height="140%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="20" result="distorted" />
+        <feGaussianBlur in="distorted" stdDeviation="1.5" />
+      </filter>
+      <clipPath id="splash-card-clip-path" clipPathUnits="objectBoundingBox">
+        <path d="M 0.5 0 L 0.96 0.08 C 0.985 0.09, 1 0.1, 1 0.12 L 1 0.88 C 1 0.9, 0.985 0.91, 0.96 0.92 L 0.5 1 L 0.04 0.92 C 0.015 0.91, 0 0.9, 0 0.88 L 0 0.12 C 0 0.1, 0.015 0.09, 0.04 0.08 Z" />
+      </clipPath>
+    </svg>
+    <div id="root">
+      <div id="loading-screen">
+        <div class="loader-emoji">⚔️</div>
+        <h1 class="loader-title">Epic Emoji Expedition</h1>
+        <p class="loader-text">Loading your legend...</p>
+      </div>
+    </div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

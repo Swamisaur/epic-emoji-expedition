@@ -1,0 +1,22 @@
+{
+  "name": "Epic Emoji Expedition",
+  "short_name": "EmojiRPG",
+  "display": "fullscreen",
+  "start_url": "/",
+  "background_color": "#111827",
+  "theme_color": "#111827",
+  "icons": [
+    {
+      "src": "https://res.cloudinary.com/dadxgvzm5/image/upload/v1753704066/Saurabh_Swami_logomark_nyi0wh.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://res.cloudinary.com/dadxgvzm5/image/upload/v1753704066/Saurabh_Swami_logomark_nyi0wh.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
