@@ -466,4 +466,4 @@ export const SCREEN_SPECIFIC_ANIMATIONS = `
         100% { background-color: rgba(127, 29, 29, 0); }
     }
     .animate-blood-moon-tint { animation: blood-moon-tint-effect 8s ease-in-out forwards; }
-`;}
+`;
